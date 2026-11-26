@@ -1,0 +1,7 @@
+Day 3 - Task 1: Vite Configuration Environments
+I created a Vite project for a student dashboard and configured vite.config.js to work across development, staging and production modes using loadEnv and separate .env files. I set up compile options (esbuild target, define globals, console removal in production), absolute imports using resolve.alias (@components, @utils, @config, @data, @assets, @styles), build optimization (minification, CSS code splitting, manual chunks, environment based sourcemaps) and assets processing (inline limit and hashed file names grouped into js, css, images and fonts folders).
+
+Day 3 - Task 2: Mobile Breakpoint Layouts
+I made the dashboard layout mobile-first with min-width breakpoints at 576px, 768px, 1024px and 1280px. On phones it uses a single column with an off-canvas menu, tablets get a 4-column stats row and 2-column grid, and laptops get a fixed sidebar with a 3-column grid. For touch adaptation, hover effects are applied only on devices that support hover, touch devices get :active press feedback, all tap targets are at least 44px, and a swipe gesture opens and closes the navigation drawer.
+
+Tech: HTML, CSS, JavaScript (ES modules), Vite.

@@ -1,0 +1,16 @@
+{
+  "name": "day3-vite-mobile-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Day 3 - Vite configuration environments + mobile breakpoint layouts (Student Dashboard)",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:staging": "vite build --mode staging",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "vite": "^5.4.0"
+  }
+}

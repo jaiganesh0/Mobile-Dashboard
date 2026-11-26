@@ -1,0 +1,108 @@
+/* ---------- Topbar ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 30;
+  height: var(--topbar-h);
+  display: flex; align-items: center; gap: .75rem;
+  padding: 0 var(--pad);
+  background: rgba(11, 16, 32, .92);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border);
+}
+.topbar__title { font-size: 1rem; font-weight: 700; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.badge {
+  font-size: .7rem; text-transform: uppercase; letter-spacing: .05em;
+  padding: .2rem .55rem; border-radius: 99px;
+  background: rgba(6, 182, 212, .15); color: var(--accent); border: 1px solid var(--accent);
+}
+.icon-btn {
+  min-width: var(--tap); min-height: var(--tap);
+  background: transparent; border: 0; color: var(--text); font-size: 1.5rem; cursor: pointer;
+  border-radius: 10px;
+}
+
+/* ---------- Drawer (off-canvas on mobile) ---------- */
+.drawer {
+  position: fixed; top: 0; bottom: 0; left: 0; z-index: 50;
+  width: var(--drawer-w); padding: 4.5rem 1rem 1rem;
+  background: var(--surface); border-right: 1px solid var(--border);
+  transform: translateX(-100%); transition: transform .28s ease;
+}
+.drawer.is-open { transform: translateX(0); }
+.backdrop {
+  position: fixed; inset: 0; z-index: 40; background: rgba(0, 0, 0, .55);
+  opacity: 0; pointer-events: none; transition: opacity .28s ease;
+}
+.backdrop.is-open { opacity: 1; pointer-events: auto; }
+
+.nav-link {
+  display: flex; align-items: center;
+  min-height: var(--tap); padding: 0 1rem; margin-bottom: .35rem;
+  color: var(--muted); text-decoration: none; border-radius: 10px;
+}
+.nav-link.is-active { background: var(--surface-2); color: var(--text); }
+
+/* ---------- Cards ---------- */
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem;
+  transition: transform .15s ease, border-color .15s ease, background .15s ease;
+}
+.card__title { font-size: 1rem; margin-bottom: .9rem; }
+
+.hero {
+  padding: 1.4rem 1.2rem; border-radius: var(--radius);
+  background: linear-gradient(135deg, #1d4ed8, #0891b2);
+}
+.hero h2 { font-size: 1.3rem; }
+.hero p { opacity: .9; margin: .3rem 0 1rem; }
+.btn {
+  min-height: var(--tap); padding: 0 1.3rem; border: 0; border-radius: 10px;
+  background: #fff; color: #0b1020; font-weight: 700; cursor: pointer;
+  transition: transform .12s ease;
+}
+
+.stat { display: flex; align-items: center; gap: .8rem; }
+.stat__icon {
+  width: 40px; height: 40px; display: grid; place-items: center; flex: none;
+  border-radius: 10px; background: var(--surface-2); color: var(--accent); font-weight: 800;
+}
+.stat__value { font-size: 1.35rem; font-weight: 800; line-height: 1.1; }
+.stat__label { color: var(--muted); font-size: .8rem; }
+
+/* ---------- Lists ---------- */
+.courses { display: grid; gap: .6rem; }
+.course { padding: .6rem .5rem; border-radius: 10px; min-height: var(--tap); }
+.course__row { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: .4rem; }
+.bar { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); border-radius: inherit; }
+
+.schedule { display: grid; gap: .5rem; }
+.schedule__item {
+  display: flex; gap: .9rem; align-items: center; min-height: var(--tap);
+  padding: .5rem .7rem; border-radius: 10px; background: var(--surface-2);
+}
+.schedule__item time { color: var(--accent); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.info { margin: 0; display: grid; gap: .5rem; }
+.info div { display: flex; justify-content: space-between; gap: 1rem; font-size: .85rem; }
+.info dt { color: var(--muted); }
+.info dd { margin: 0; font-weight: 600; text-align: right; word-break: break-all; }
+
+/* ---------- Touch vs mouse hover adaptation ----------
+   Touch devices have no real hover (it "sticks" after a tap), so:
+   - hover effects only apply when the device truly supports hover
+   - touch devices get an :active press effect instead */
+@media (hover: hover) and (pointer: fine) {
+  .card:hover { transform: translateY(-3px); border-color: var(--primary); }
+  .btn:hover { transform: scale(1.04); }
+  .nav-link:hover { background: var(--surface-2); color: var(--text); }
+  .schedule__item:hover, .course:hover { background: var(--surface-2); }
+}
+@media (hover: none) {
+  .card:active, .schedule__item:active, .course:active { background: var(--surface-2); transform: scale(.98); }
+  .btn:active { transform: scale(.95); }
+  .nav-link:active { background: var(--surface-2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}

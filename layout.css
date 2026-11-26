@@ -1,0 +1,49 @@
+/* TASK 2 - Mobile-first layout. Base styles above = phones (<576px).
+   Larger screens are enhanced with min-width breakpoints. */
+
+.content { padding: var(--pad); display: grid; gap: var(--gap); padding-bottom: calc(var(--pad) + env(safe-area-inset-bottom)); }
+.stats { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
+.grid { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
+
+/* ---------- Large mobile / small tablet: >= 576px ---------- */
+@media (min-width: 576px) {
+  :root { --pad: 1.4rem; }
+  .hero h2 { font-size: 1.6rem; }
+}
+
+/* ---------- Tablet: >= 768px ---------- */
+@media (min-width: 768px) {
+  :root { --gap: 1.25rem; }
+  .stats { grid-template-columns: repeat(4, 1fr); }
+  .grid { grid-template-columns: 1fr 1fr; }
+  .grid > :first-child { grid-column: 1 / -1; }
+  .topbar__title { font-size: 1.15rem; }
+}
+
+/* ---------- Laptop: >= 1024px - drawer becomes a fixed sidebar ---------- */
+@media (min-width: 1024px) {
+  .shell { display: grid; grid-template-columns: var(--drawer-w) 1fr; grid-template-rows: var(--topbar-h) 1fr; }
+  .topbar { grid-column: 1 / -1; }
+  #menu-btn, .backdrop { display: none; }
+  .drawer {
+    position: sticky; top: var(--topbar-h); z-index: 1;
+    height: calc(100vh - var(--topbar-h)); padding-top: 1.5rem;
+    transform: none; transition: none;
+  }
+  .content { max-width: 1200px; width: 100%; margin-inline: auto; }
+  .grid { grid-template-columns: 2fr 1fr 1fr; }
+  .grid > :first-child { grid-column: auto; }
+}
+
+/* ---------- Desktop: >= 1280px ---------- */
+@media (min-width: 1280px) {
+  :root { --pad: 2rem; --gap: 1.5rem; }
+  .hero { padding: 2rem; }
+  .hero h2 { font-size: 1.9rem; }
+}
+
+/* ---------- Landscape phones: reduce vertical waste ---------- */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero { padding: .9rem 1.2rem; }
+  .drawer { padding-top: 4rem; overflow-y: auto; }
+}
