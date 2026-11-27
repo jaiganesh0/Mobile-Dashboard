@@ -1,49 +1,39 @@
-# Day 3 - Vite Configuration Environments & Mobile Breakpoint Layouts
+# Day 4 - State Persistence (Local Storage) & Web Accessibility Audit
 
-A Student Dashboard built with **Vite + vanilla JavaScript** covering both Day 3 tasks.
+Student Dashboard (Vite + vanilla JS), extending the Day 3 project.
 
-## Task 1 - Vite Configuration Environments
-Everything lives in `vite.config.js` and the `.env*` files.
+## Task 1 - State Persistence with localStorage / sessionStorage
+| What is saved | Where | Why |
+|---|---|---|
+| Course filters (search, status, sort) | `localStorage` | user preference, should survive restart |
+| Bookmarked courses | `localStorage` | long-lived user data |
+| Study notes (autosave, 400ms debounce) | `localStorage` | input should not be lost on refresh |
+| Active tab, task title draft | `sessionStorage` | only relevant to the current browser tab |
 
-| Requirement | How it is done |
-|---|---|
-| Compile configurations | `defineConfig(({ mode, command }) => ...)`, esbuild target `es2020`, `define` globals (`__APP_VERSION__`, `__BUILD_MODE__`), console/debugger stripped in production |
-| Environments | `.env`, `.env.development`, `.env.staging`, `.env.production` loaded with `loadEnv`; accessed through `src/config/env.js` |
-| Absolute imports | `resolve.alias`: `@`, `@components`, `@utils`, `@config`, `@data`, `@assets`, `@styles` |
-| Build optimization | esbuild minify, CSS minify + code split, `manualChunks` (data / utils), sourcemaps only in dev/staging, inline limit 4kb |
-| Assets processing | Hashed output names grouped into `js/`, `css/`, `images/`, `fonts/`; SVG imported from JS is processed by Vite |
+- `src/utils/storage.js` - safe wrapper: namespaced + versioned keys (`sd:v1:`), JSON parse/stringify, try/catch for private mode / quota errors, in-memory fallback so the app never crashes.
+- `src/utils/store.js` - one place that defines every persisted value (getters/setters) + `debounce`.
+- Multi-tab sync using the `storage` event, and a "Reset saved data" button.
 
-## Task 2 - Mobile Breakpoint Layouts
-Mobile-first CSS (`src/styles/layout.css`): base styles are for phones, enhanced with `min-width` queries.
+## Task 2 - Web Accessibility (a11y) Audit
+- **aria-labels**: icon-only buttons (menu, bookmark stars) have labels, `aria-expanded`, `aria-controls`, `aria-pressed`, `aria-current`, live regions (`role="status"`) for filter count / autosave / reset.
+- **Keyboard-navigable tabs**: WAI-ARIA tabs pattern - roving tabindex, Left/Right arrows (wrap), Home/End, panels focusable (`src/components/Tabs.js`).
+- **Contrast guidelines**: every text colour is at least 4.5:1 and UI colours at least 3:1 (measured values in `docs/A11Y_AUDIT.md`).
+- **Other fixes**: skip link, visible 3px focus ring, closed drawer is removed from tab order (`visibility:hidden`), Esc closes drawer and returns focus, labelled form fields, 44px targets, reduced-motion, forced-colors support, no focusable non-interactive elements.
+- **Lighthouse**: see "Run Lighthouse" below.
 
-| Breakpoint | Layout |
-|---|---|
-| < 576px (mobile) | 2-col stats, single column cards, off-canvas drawer menu |
-| >= 576px | larger padding and heading |
-| >= 768px (tablet) | 4-col stats, 2-col card grid |
-| >= 1024px (laptop) | drawer becomes fixed sidebar, 3-col grid |
-| >= 1280px (desktop) | extra spacing, larger hero |
-
-**Touch gesture / hover adaptations**
-- Hover effects only inside `@media (hover: hover) and (pointer: fine)`
-- Touch devices get `:active` press feedback inside `@media (hover: none)`
-- 44px minimum tap targets, `touch-action: manipulation`, no tap highlight flash
-- Swipe from left edge opens the drawer, swipe left closes it (`gestures.js`)
-- `prefers-reduced-motion`, landscape-phone and safe-area support
-
-## Run it
+## Run
 ```bash
 npm install
-npm run dev            # development mode  (.env.development)
-npm run build:staging  # staging build     (.env.staging)
-npm run build          # production build  (.env.production)
-npm run preview        # serve the dist folder
+npm run dev
 ```
+
+### Run Lighthouse (Chrome)
+1. `npm run build && npm run preview`, open `http://localhost:4173`
+2. DevTools -> Lighthouse -> Accessibility (Mobile) -> Analyze page load
+3. Save the report screenshot as `screenshots/lighthouse.png`
 
 ## Structure
 ```
-index.html  vite.config.js  .env*  package.json
-src/ main.js  config/  utils/  data/  components/  assets/  styles/
-public/favicon.svg
-screenshots/  docs/Day3_Report.pdf
+src/utils/storage.js  store.js   src/components/Tabs.js CoursesPanel.js NotesPanel.js SavedData.js
+src/styles/a11y.css   docs/A11Y_AUDIT.md   docs/Day4_Report.pdf   screenshots/
 ```

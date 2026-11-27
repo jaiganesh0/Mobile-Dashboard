@@ -16,7 +16,6 @@
   :root { --gap: 1.25rem; }
   .stats { grid-template-columns: repeat(4, 1fr); }
   .grid { grid-template-columns: 1fr 1fr; }
-  .grid > :first-child { grid-column: 1 / -1; }
   .topbar__title { font-size: 1.15rem; }
 }
 
@@ -28,11 +27,10 @@
   .drawer {
     position: sticky; top: var(--topbar-h); z-index: 1;
     height: calc(100vh - var(--topbar-h)); padding-top: 1.5rem;
-    transform: none; transition: none;
+    transform: none; transition: none; visibility: visible;
   }
   .content { max-width: 1200px; width: 100%; margin-inline: auto; }
-  .grid { grid-template-columns: 2fr 1fr 1fr; }
-  .grid > :first-child { grid-column: auto; }
+  .grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 /* ---------- Desktop: >= 1280px ---------- */

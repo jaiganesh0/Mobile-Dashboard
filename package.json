@@ -1,9 +1,9 @@
 {
-  "name": "day3-vite-mobile-dashboard",
+  "name": "day4-persistence-a11y-dashboard",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
-  "description": "Day 3 - Vite configuration environments + mobile breakpoint layouts (Student Dashboard)",
+  "description": "Day 4 - State persistence (localStorage/sessionStorage) + Web accessibility audit (Student Dashboard)",
   "scripts": {
     "dev": "vite",
     "build": "vite build",

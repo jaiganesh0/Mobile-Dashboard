@@ -3,7 +3,7 @@ export const Schedule = (items) => `
     <h2 id="schedule-title" class="card__title">Today's Schedule</h2>
     <ul class="schedule">
       ${items
-        .map((i) => `<li class="schedule__item" tabindex="0"><time>${i.time}</time><span>${i.title}</span></li>`)
+        .map((i) => `<li class="schedule__item"><time>${i.time}</time><span>${i.title}</span></li>`)
         .join('')}
     </ul>
   </section>`;

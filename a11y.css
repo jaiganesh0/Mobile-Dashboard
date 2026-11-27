@@ -1,0 +1,86 @@
+/* TASK 2 - Accessibility styles */
+
+/* visually hidden but available to screen readers */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Skip link: first focusable element, appears on keyboard focus */
+.skip-link {
+  position: absolute; left: .75rem; top: -4rem; z-index: 100;
+  padding: .7rem 1rem; border-radius: 10px; background: #fff; color: #0b1020; font-weight: 700;
+  text-decoration: none;
+}
+.skip-link:focus { top: .75rem; }
+
+/* Strong focus indicator (3:1+ contrast against the dark background) */
+:focus-visible { outline: 3px solid #fbbf24; outline-offset: 2px; border-radius: 6px; }
+main:focus { outline: none; }
+
+/* Form controls: visible labels, 44px height, clear borders */
+.field { display: grid; gap: .35rem; margin-bottom: .9rem; }
+.field label { font-size: .85rem; font-weight: 600; color: var(--text); }
+.hint { font-weight: 400; color: var(--muted); }
+input, select, textarea {
+  width: 100%; min-height: var(--tap); padding: .6rem .8rem;
+  font: inherit; color: var(--text); background: var(--bg);
+  border: 1px solid #5b6b9e; border-radius: 10px;
+}
+textarea { resize: vertical; }
+::placeholder { color: #8d9abf; opacity: 1; }
+
+/* Tabs */
+.tabs { display: flex; gap: .25rem; border-bottom: 1px solid var(--border); }
+.tabs [role="tab"] {
+  flex: 1; min-height: var(--tap); padding: 0 1rem;
+  background: transparent; color: var(--muted); font: inherit; font-weight: 600;
+  border: 0; border-bottom: 3px solid transparent; cursor: pointer;
+}
+.tabs [role="tab"][aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); }
+.panel { display: grid; gap: var(--gap); }
+.panel[hidden] { display: none; }
+.panel:focus-visible { border-radius: var(--radius); }
+
+/* Bookmark button + filter row */
+.course { display: flex; align-items: center; gap: .6rem; }
+.course__main { flex: 1; min-width: 0; }
+.bookmark {
+  flex: none; width: var(--tap); height: var(--tap); font-size: 1.4rem; line-height: 1;
+  background: var(--surface-2); color: #fbbf24; border: 1px solid var(--border);
+  border-radius: 10px; cursor: pointer;
+}
+.bookmark[aria-pressed="true"] { background: #3a2f0b; border-color: #fbbf24; }
+.filters { display: grid; gap: 0; }
+.muted { color: var(--muted); font-size: .85rem; margin-bottom: .6rem; }
+.empty { padding: 1rem; text-align: center; color: var(--muted); }
+
+.notes__foot { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.notes__foot .muted { margin: 0; }
+
+.btn--ghost { background: transparent; color: var(--text); border: 1px solid #5b6b9e; }
+.reset { margin-top: 1rem; width: 100%; }
+
+@media (hover: hover) and (pointer: fine) {
+  .tabs [role="tab"]:hover { color: var(--text); }
+  .bookmark:hover { border-color: #fbbf24; }
+  .btn--ghost:hover { background: var(--surface-2); transform: none; }
+}
+
+/* Respect user settings */
+@media (forced-colors: active) {
+  .bar span { background: Highlight; }
+  .tabs [role="tab"][aria-selected="true"] { border-bottom-color: Highlight; }
+}
+@media (min-width: 768px) {
+  .filters { grid-template-columns: 2fr 1.5fr 1.5fr; gap: 1rem; }
+}
+
+/* keep the full app title visible on small phones */
+.topbar { gap: .5rem; }
+.topbar__title { font-size: .9rem; }
+.badge { font-size: .62rem; padding: .15rem .45rem; }
+@media (min-width: 576px) { .topbar { gap: .75rem; } .topbar__title { font-size: 1rem; } .badge { font-size: .7rem; padding: .2rem .55rem; } }
+
+/* current page indicator in the nav (not by colour alone: left bar + weight) */
+.nav-link[aria-current="page"] { background: var(--surface-2); color: var(--text); font-weight: 700; box-shadow: inset 4px 0 0 var(--accent); }
